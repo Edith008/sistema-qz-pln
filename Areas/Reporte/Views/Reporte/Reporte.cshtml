@@ -1,0 +1,24 @@
+﻿@*  ------------*@
+
+@{
+    ViewData["Title"] = "Reporte";
+}
+
+@* <h1>reportes  l123456</h1> *@
+
+@{
+    ViewData["Title"] = "Reporte";
+}
+
+<h1>Crear Reporte</h1>
+
+@* <form asp-action="GenerarReporte" method="post"> *@
+<form >
+    <div>
+        <label for="tipoReporte">¿Qué tipo de reporte deseas?</label><br>
+        <input type="text" id="tipoReporte" name="tipoReporte" class="form-control" placeholder="Ej. ventas del mes de mayo" required />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Generar Reporte</button>
+</form>
+

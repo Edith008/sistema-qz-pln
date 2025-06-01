@@ -1,0 +1,67 @@
+﻿
+@* VISTA PRINCIPAL-MENU ------------*@
+
+@{
+    ViewData["Title"] = "Principal";
+}
+
+<!-- Botón para móviles -->
+<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('active')">☰ Menú</button>
+
+<div class="wrapper-principal">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-title">Menú</div>
+
+        @* "Mi Perfil" para cualquier usuario autenticado *@
+        @if (User.Identity.IsAuthenticated)
+        {
+            @inject UserManager<IdentityUser> UserManager
+            <a asp-area="Perfil" asp-controller="Perfil" asp-action="Perfil" asp-route-id="@UserManager.GetUserId(User)">Mi Perfil</a>
+            <a asp-area="Reporte" asp-controller="Reporte" asp-action="Reporte">Reportes</a>
+        }
+
+        @* Para Admin y Empleado *@
+        @if (User.IsInRole("Admin") || User.IsInRole("Empleado"))
+        {
+            <a asp-area="Usuario" asp-controller="Usuario" asp-action="UsuarioDefault">Gestionar usuario</a>
+            <a asp-area="Inventario"  asp-controller="Inventario" asp-action="Inventario">Kardex de Inventario</a>
+            <a asp-controller="Calculadora" asp-action="Calculadora" asp-action="Calculadora">Calculadora</a>
+        }
+
+        @* Para Admin y Proveedor *@
+        @if (User.IsInRole("Admin") || User.IsInRole("Proveedor"))
+        {
+            <a asp-controller="Ventas" asp-action="Ventas"> Ventas</a>
+            <a asp-controller="Pedidos" asp-action="Pedidos"> Pedidos</a>
+        }
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="content">
+        <div class="welcome-box">
+            <h1>Bienvenido a la Extranet</h1>
+            <p class="lead">Esta es la plataforma de gestión interna. Usa el menú lateral para acceder a las funcionalidades disponibles según tu rol.</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h2>🔐 Seguridad</h2>
+                <p>Tus datos están protegidos bajo protocolos seguros de autenticación y autorización.</p>
+            </div>
+
+            <div class="info-card">
+                <h2>🕒 Horario</h2>
+                <p>La plataforma está disponible 24/7, con soporte técnico de lunes a viernes.</p>
+            </div>
+
+            <div class="info-card">
+                <h2>📌 Recordatorio</h2>
+                <p>No olvides cerrar sesión si estás en un dispositivo compartido.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

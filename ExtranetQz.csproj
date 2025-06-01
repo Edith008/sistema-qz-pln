@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-ExtranetQz-DBB727E3-7A78-4899-9484-5D5B27B752C5</UserSecretsId>
+    <RootNamespace>ExtranetQz</RootNamespace> 
+    <AssemblyName>ExtranetQz</AssemblyName> 
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Areas\Calculadora\Data\" />
+    <Folder Include="Areas\Calculadora\Models\" />
+    <Folder Include="Areas\Inventario\Data\" />
+    <Folder Include="Areas\Inventario\Models\" />
+    <Folder Include="Areas\Perfil\Data\" />
+    <Folder Include="Areas\Perfil\Models\" />
+    <Folder Include="Areas\Principal\Data\" />
+    <Folder Include="Areas\Principal\Models\" />
+    <Folder Include="Areas\Reporte\Data\" />
+    <Folder Include="Areas\Reporte\Models\" />
+    <Folder Include="Areas\Usuario\Data\" />
+  </ItemGroup>
+
+</Project>

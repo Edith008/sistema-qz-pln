@@ -1,0 +1,149 @@
+﻿@model InputModelRegister
+@{
+    ViewData["Title"] = "Perfil";
+    var image = "";
+    if (Model.Image != null)
+    {
+        image = "data:image/jpg;base64," + Convert.ToBase64String(Model.Image,
+       0, Model.Image.Length);
+    }
+    else
+    {
+        image = "/images/default.png";
+    }
+
+    var name = $"{Model.Name} {Model.LastName}";
+    var role = User.Claims.FirstOrDefault(u => u.Type.Equals(ClaimTypes.Role)).Value;
+}
+
+<h1>Perfil</h1>
+<div class="container p-4">
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <div class="card text-center">
+                <div class="card-header ">
+                    <output id="imagePerfil">
+                        <img class='imageUserDetails' src=@image />
+                    </output>
+                </div>
+                <div class="card-body text-center">
+                    <form asp-controller="Perfil" asp-action="PerfilFoto" method="post" enctype="multipart/form-data">
+                        <div>
+                            <label class="btn btn-success" for="files">Cargar foto</label>
+                            <input asp-for="AvatarImage" accept="image/*" class="file-input" type="file" id="files">
+                        </div>
+                        <div class="caption">
+                            <h4 id="namePerfil">@name</h4>
+                            <h4 id="rolePerfil">@role</h4>
+
+                            <p>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </p>
+                        </div>
+                    </form>
+                    <div class="form-group">
+                        <label class="text-danger">@Html.DisplayFor(m => m.ErrorMessage)  </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-8">
+            <div class="card text-center">
+                <div class="card-header ">
+                    <h3 class="panel-title">Configuracion de Usuario</h3>
+                </div>
+                <div class="card-body text-center">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Cambiar informacion
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <form asp-controller="Perfil" asp-action="Actualizar" method="post">
+                                        <div class="form-group">
+
+                                            <div class="col-md-9">
+                                                <input asp-for="NID" placeholder="Nº Identidad" class="form-control">
+                                                <span asp-validation-for="NID" class="text-danger"></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-9">
+                                                <input asp-for="Name" placeholder="Nombre" class="form-control">
+                                                <span asp-validation-for="Name" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-9">
+                                                <input asp-for="LastName" placeholder="Apellido" class="form-control">
+                                                <span asp-validation-for="LastName" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-9">
+                                                <input asp-for="PhoneNumber" placeholder="Nº Telefono" class="form-control">
+                                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-9">
+                                                <input asp-for="Email" placeholder="Email" class="form-control" id="email">
+                                                <span asp-validation-for="Email" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-10">
+                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        Cambiar contraseña
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <form asp-controller="Perfil" asp-action="ResetPassword" method="post">
+                                        <div class="form-group">
+                                            <div class="col-md-9">
+                                                <input asp-for="Password" placeholder="Password" class="form-control">
+                                                <span asp-validation-for="Password" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-9">
+                                                <input asp-for="ConfirmPassword" placeholder="Confirm Password" class="form-control">
+                                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-10">
+                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
