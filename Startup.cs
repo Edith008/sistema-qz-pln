@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Http;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 
+
+
 namespace ExtranetQz
 {
     public class Startup
@@ -67,6 +69,8 @@ namespace ExtranetQz
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -128,6 +132,8 @@ namespace ExtranetQz
                 endpoints.MapAreaControllerRoute("Perfil", "Perfil", "{controller=Perfil}/{action=Perfil}/{id?}");
 
                 endpoints.MapAreaControllerRoute("Inventario", "Inventario", "{controller=Inventario}/{action=Inventario}/{id?}");
+
+                endpoints.MapAreaControllerRoute("Kardex", "Kardex", "{controller=Kardex}/{action=Kardex}/{id?}");
 
                 endpoints.MapAreaControllerRoute("Calculadora", "Calculadora", "{controller=Calculadora}/{action=Calculadora}/{id?}");
 
