@@ -16,41 +16,41 @@
     var role = User.Claims.FirstOrDefault(u => u.Type.Equals(ClaimTypes.Role)).Value;
 }
 
-<h1>Perfil</h1>
+
 <div class="container p-4">
     <div class="row">
         <div class="col-sm-6 col-md-3">
-            <div class="card text-center">
-                <div class="card-header ">
+            <div class="card text-center card-dark">
+                <div class="card-header">
                     <output id="imagePerfil">
-                        <img class='imageUserDetails' src=@image />
+                        <img class='imageUserDetails' src="@image" />
                     </output>
                 </div>
                 <div class="card-body text-center">
                     <form asp-controller="Perfil" asp-action="PerfilFoto" method="post" enctype="multipart/form-data">
                         <div>
-                            <label class="btn btn-success" for="files">Cargar foto</label>
+                            <label class="btn btn-custom" for="files">Cargar foto</label>
                             <input asp-for="AvatarImage" accept="image/*" class="file-input" type="file" id="files">
                         </div>
-                        <div class="caption">
+                        <div class="caption mt-3">
                             <h4 id="namePerfil">@name</h4>
-                            <h4 id="rolePerfil">@role</h4>
+                            <h5 id="rolePerfil" class="text-muted">@role</h5>
 
                             <p>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button type="submit" class="btn btn-custom">Guardar</button>
                             </p>
                         </div>
                     </form>
                     <div class="form-group">
-                        <label class="text-danger">@Html.DisplayFor(m => m.ErrorMessage)  </label>
+                        <label class="text-danger">@Html.DisplayFor(m => m.ErrorMessage)</label>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-xs-6 col-md-8">
-            <div class="card text-center">
-                <div class="card-header ">
-                    <h3 class="panel-title">Configuracion de Usuario</h3>
+            <div class="card text-center card-dark">
+                <div class="card-header">
+                    <h3 class="panel-title">Configuración de Usuario</h3>
                 </div>
                 <div class="card-body text-center">
                     <div class="accordion" id="accordionExample">
@@ -58,7 +58,7 @@
                             <div class="card-header" id="headingOne">
                                 <h2 class="mb-0">
                                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Cambiar informacion
+                                        Cambiar información
                                     </button>
                                 </h2>
                             </div>
@@ -66,47 +66,31 @@
                                 <div class="card-body">
                                     <form asp-controller="Perfil" asp-action="Actualizar" method="post">
                                         <div class="form-group">
-
-                                            <div class="col-md-9">
-                                                <input asp-for="NID" placeholder="Nº Identidad" class="form-control">
-                                                <span asp-validation-for="NID" class="text-danger"></span>
-                                            </div>
-
+                                            <input asp-for="NID" placeholder="Nº Identidad" class="form-control mb-3">
+                                            <span asp-validation-for="NID" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-md-9">
-                                                <input asp-for="Name" placeholder="Nombre" class="form-control">
-                                                <span asp-validation-for="Name" class="text-danger"></span>
-                                            </div>
+                                            <input asp-for="Name" placeholder="Nombre" class="form-control mb-3">
+                                            <span asp-validation-for="Name" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-md-9">
-                                                <input asp-for="LastName" placeholder="Apellido" class="form-control">
-                                                <span asp-validation-for="LastName" class="text-danger"></span>
-                                            </div>
+                                            <input asp-for="LastName" placeholder="Apellido" class="form-control mb-3">
+                                            <span asp-validation-for="LastName" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-md-9">
-                                                <input asp-for="PhoneNumber" placeholder="Nº Telefono" class="form-control">
-                                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                            </div>
+                                            <input asp-for="PhoneNumber" placeholder="Nº Teléfono" class="form-control mb-3">
+                                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-md-9">
-                                                <input asp-for="Email" placeholder="Email" class="form-control" id="email">
-                                                <span asp-validation-for="Email" class="text-danger"></span>
-                                            </div>
+                                            <input asp-for="Email" placeholder="Email" class="form-control mb-3" id="email">
+                                            <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <button type="submit" class="btn btn-primary">Guardar</button>
-                                            </div>
-                                        </div>
+                                        <button type="submit" class="btn btn-custom">Guardar</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
+                        <div class="card mt-3">
                             <div class="card-header" id="headingTwo">
                                 <h2 class="mb-0">
                                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -118,22 +102,14 @@
                                 <div class="card-body">
                                     <form asp-controller="Perfil" asp-action="ResetPassword" method="post">
                                         <div class="form-group">
-                                            <div class="col-md-9">
-                                                <input asp-for="Password" placeholder="Password" class="form-control">
-                                                <span asp-validation-for="Password" class="text-danger"></span>
-                                            </div>
+                                            <input asp-for="Password" placeholder="Password" class="form-control mb-3">
+                                            <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-md-9">
-                                                <input asp-for="ConfirmPassword" placeholder="Confirm Password" class="form-control">
-                                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                                            </div>
+                                            <input asp-for="ConfirmPassword" placeholder="Confirm Password" class="form-control mb-3">
+                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <button type="submit" class="btn btn-primary">Guardar</button>
-                                            </div>
-                                        </div>
+                                        <button type="submit" class="btn btn-custom">Guardar</button>
                                     </form>
                                 </div>
                             </div>
@@ -144,6 +120,7 @@
         </div>
     </div>
 </div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

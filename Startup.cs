@@ -70,6 +70,7 @@ namespace ExtranetQz
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            /*services.AddHttpClient();*/ // Registro general de HttpClient
             
         }
 
@@ -136,6 +137,21 @@ namespace ExtranetQz
                 endpoints.MapAreaControllerRoute("Kardex", "Kardex", "{controller=Kardex}/{action=Kardex}/{id?}");
 
                 endpoints.MapAreaControllerRoute("Calculadora", "Calculadora", "{controller=Calculadora}/{action=Calculadora}/{id?}");
+
+                endpoints.MapAreaControllerRoute("Factura", "Factura", "{controller=Factura}/{action=Factura}/{id?}");
+
+                endpoints.MapAreaControllerRoute("ClienteFac", "ClienteFac", "{controller=ClienteFac}/{action=ClienteFac}/{id?}");
+
+                //endpoints.MapAreaControllerRoute("Vendedor", "Vendedor", "{controller=Vendedor}/{action=ProductosVendedor}/{id?}");
+                //endpoints.MapAreaControllerRoute("Vendedor", "Vendedor", "{controller=Vendedor}/{action=ClientesVendedor}/{id?}");
+                //endpoints.MapAreaControllerRoute("Vendedor", "Vendedor", "{controller=Vendedor}/{action=FacturasVendedor}/{id?}");
+
+                endpoints.MapAreaControllerRoute(
+                name: "Vendedor",
+                areaName: "Vendedor",
+                pattern: "Vendedor/{controller=Vendedor}/{action=ProductosVendedor}/{id?}");
+
+                endpoints.MapAreaControllerRoute("Vendedor", "Vendedor", "{controller=Metricas}/{action=FacturasMetricas}/{id?}");
 
                 endpoints.MapRazorPages();
             });

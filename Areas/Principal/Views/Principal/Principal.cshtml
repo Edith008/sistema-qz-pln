@@ -1,68 +1,103 @@
-﻿
-@* VISTA PRINCIPAL-MENU ------------*@
+﻿@* VISTA PRINCIPAL-MENU - Versión Formal *@
+<style>
+    body {
+        background-color: #2d2d2d; /* Fondo oscuro */
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        font-family: 'Lato', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-@{
-    ViewData["Title"] = "Principal";
-}
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        color: #ffffff;
+    }
 
-<!-- Botón para móviles -->
-<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('active')">☰ Menú</button>
+    .principal-box {
+        max-width: 1000px;
+        margin: 100px auto 50px auto; /* 🔹 Subido: de 150px a 100px */
+        text-align: center;
+    }
 
-<div class="wrapper-principal">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-title">Menú</div>
+    .info-grid {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-bottom: 50px;
+    }
 
-        @* "Mi Perfil" para cualquier usuario autenticado *@
-        @if (User.Identity.IsAuthenticated)
-        {
-            @inject UserManager<IdentityUser> UserManager
-            <a asp-area="Perfil" asp-controller="Perfil" asp-action="Perfil" asp-route-id="@UserManager.GetUserId(User)">Mi Perfil</a>
-            <a asp-area="Reporte" asp-controller="Reporte" asp-action="Reporte">Reportes</a>
+    .info-card {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s, box-shadow 0.3s;
+        flex: 1 1 300px;
+        max-width: 300px;
+        min-height: 220px; /* 🔹 Fuerza altura igual */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
-        @* Para Admin y Empleado *@
-        @if (User.IsInRole("Admin") || User.IsInRole("Empleado"))
-        {
-            <a asp-area="Usuario" asp-controller="Usuario" asp-action="UsuarioDefault">Gestionar usuario</a>
-            <a asp-area="Inventario"  asp-controller="Inventario" asp-action="Inventario">Inventario</a>
-            <a asp-area="Kardex" asp-controller="Kardex" asp-action="Kardex">Kardex de Inventario</a>
-            <a asp-controller="Calculadora" asp-action="Calculadora" asp-action="Calculadora">Calculadora</a>
+        .info-card * {
+            color: #ffffff;
         }
 
-        @* Para Admin y Proveedor *@
-        @if (User.IsInRole("Admin") || User.IsInRole("Proveedor"))
-        {
-            <a asp-controller="Ventas" asp-action="Ventas"> Ventas</a>
-            <a asp-controller="Pedidos" asp-action="Pedidos"> Pedidos</a>
-        }
-    </div>
+    h1 {
+        font-size: 2.6rem;
+        color: #ffffff;
+        margin-bottom: 20px;
+    }
 
-    <!-- Contenido principal -->
-    <div class="content">
-        <div class="welcome-box">
-            <h1>Bienvenido a la Extranet</h1>
-            <p class="lead">Esta es la plataforma de gestión interna. Usa el menú lateral para acceder a las funcionalidades disponibles según tu rol.</p>
-        </div>
+    .info-card h2 {
+        font-size: 1.3rem;
+        color: #f3481a;
+        margin-bottom: 10px;
+    }
 
-        <div class="info-grid">
-            <div class="info-card">
-                <h2>🔐 Seguridad</h2>
-                <p>Tus datos están protegidos bajo protocolos seguros de autenticación y autorización.</p>
-            </div>
+    p, .lead {
+        font-size: 1.05rem;
+        color: #ffffff;
+        line-height: 1.5;
+    }
 
-            <div class="info-card">
-                <h2>🕒 Horario</h2>
-                <p>La plataforma está disponible 24/7, con soporte técnico de lunes a viernes.</p>
-            </div>
+    .lead {
+        font-size: 1.2rem;
+    }
 
-            <div class="info-card">
-                <h2>📌 Recordatorio</h2>
-                <p>No olvides cerrar sesión si estás en un dispositivo compartido.</p>
-            </div>
-        </div>
-    </div>
+</style>
+
+<!-- CONTENIDO FORMAL -->
+<div class="principal-box glass-effect">
+    <h1>Bienvenido a la Extranet</h1>
+    <p class="lead">
+        Distribuimos productos farmacéuticos de alta calidad, respaldados por certificaciones nacionales y más de 46 años de trayectoria.
+    </p>
 </div>
 
-
-
+<div class="info-grid">
+    <div class="info-card">
+        <h2>Seguridad</h2>
+        <p>Tus datos están protegidos mediante autenticación y autorización por roles.</p>
+    </div>
+    <div class="info-card">
+        <h2>Horario</h2>
+        <p>Acceso disponible 24/7, con soporte técnico de lunes a viernes.</p>
+    </div>
+    <div class="info-card">
+        <h2>Recordatorio</h2>
+        <p>Recuerda cerrar sesión si utilizas un dispositivo compartido.</p>
+    </div>
+</div>

@@ -37,8 +37,15 @@ namespace ExtranetQz.Areas.Principal.Controllers
                 var user = await _userManager.FindByIdAsync(id);
                 var roles = await _userManager.GetRolesAsync(user);
 
-                if (!roles.Contains("Admin") && !roles.Contains("Empleado") && !roles.Contains("Proveedor"))
+                if (!roles.Contains("Admin") &&
+                    !roles.Contains("Empleado") &&
+                    !roles.Contains("Proveedor") &&
+                    !roles.Contains("Cliente") &&
+                    !roles.Contains("Vendedor")
+                    )
+                {
                     return Forbid(); // O RedirectToAction("AccesoDenegado")
+                }
 
                 return View();
             }

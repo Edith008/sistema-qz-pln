@@ -1,35 +1,34 @@
-﻿//using System.Linq;
-//using ExtranetQz.Areas.Kardex.Data;
-//using ExtranetQz.Areas.Kardex.Models;
-//using Microsoft.AspNetCore.Mvc;
-
-//public class KardexController : Controller
-//{
-//    private readonly KardexDbContext _context;
-
-//    public KardexController(KardexDbContext context)
-//    {
-//        _context = context;
-//    }
-
-//    public IActionResult Kardex()
-//    {
-//        var movimientos = _context.Movimientos.ToList();
-//        return View(movimientos);
-//    }
-//}
-
+﻿
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ExtranetQz.Areas.Kardex.Models;  // Ajusta el namespace según tu proyecto
+using System.Collections.Generic;
 
 namespace ExtranetQz.Areas.Kardex.Controllers
 {
     [Area("Kardex")]
     public class KardexController : Controller
     {
-        public IActionResult Kardex()
+        public async Task<IActionResult> Kardex()
         {
-            return View();
+            using var httpClient = new HttpClient();
+
+            var response = await httpClient.GetAsync("http://51.161.9.55:3000/api/kardex");
+            if (!response.IsSuccessStatusCode)
+            {
+                // Manejo de error
+                return View("Error");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            // Deserializamos con Newtonsoft.Json
+            var kardexResponse = JsonConvert.DeserializeObject<KardexResponse>(json);
+
+            // Enviar la lista de movimientos a la vista
+            return View(kardexResponse.resultados);
         }
     }
-}  
-
+}

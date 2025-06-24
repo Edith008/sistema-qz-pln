@@ -1,0 +1,66 @@
+﻿@model List<ExtranetQz.Areas.Vendedor.Models.ClienteVendedor>
+
+@{
+    ViewData["Title"] = "Clientes del Vendedor";
+}
+
+<div style="overflow-x: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+
+    <h1> Lista de Clientes  </h1>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ArchivoRuta))
+    {
+        <a href="@("http://" + ViewBag.ArchivoRuta)" target="_blank"
+           class="btn"
+           style="position: absolute; top: 20px; right: 20px; background-color: #f3481a; color: white; border-color: #f3481a;">
+            Descargar Excel
+        </a>
+    }
+
+    <table class="table table-bordered table-striped mb-0">
+        <thead class="thead-dark">
+        <tr>
+            <th>CardCode</th>
+            <th>Nombre</th>
+            <th>Nombre Fiscal</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Línea Crédito</th>
+            <th>Deuda</th>
+            <th>Balance</th>
+            <th>Región</th>
+            <th>Días Crédito</th>
+            <th>Canal Cliente</th>
+            <th>Email</th>
+            <th>Zona Venta</th>
+            <th>Zona Transporte</th>
+            <th>Tipo Crédito</th>
+            <th>Oficina Venta</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cliente in Model)
+        {
+            <tr>
+                <td>@cliente.cardCode</td>
+                <td>@cliente.cardName</td>
+                <td>@cliente.cardFName</td>
+                <td>@($"{cliente.street} {cliente.address2}")</td>
+                <td>@cliente.phone1</td>
+                <td>@cliente.creditLine.ToString("N2")</td>
+                <td>@cliente.debtLine.ToString("N2")</td>
+                <td>@cliente.balance.ToString("N2")</td>
+                <td>@cliente.u_BIREGION</td>
+                <td>@cliente.diasCredito</td>
+                <td>@cliente.u_CanalCliente</td>
+                <td>@cliente.e_Mail</td>
+                <td>@cliente.zonaVenta</td>
+                <td>@cliente.zonaTransporte</td>
+                <td>@cliente.tipoCredito</td>
+                <td>@cliente.ofcVta</td>
+            </tr>
+        }
+    </tbody>
+</table>
+    </div>
+

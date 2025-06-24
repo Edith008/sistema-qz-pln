@@ -1,7 +1,56 @@
-﻿@*  ------------*@
+﻿@model List<ExtranetQz.Areas.Calculadora.Models.Resultado>
 
-@{
-    ViewData["Title"] = "Calculadora";
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
 }
+else if (Model == null || !Model.Any())
+{
+    <div class="alert alert-warning">No se encontraron resultados.</div>
+}
+else
+{
+    <div style="overflow-x:auto; background-color:white; padding:20px; border-radius:10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 100vw; max-width: 100vw;">
 
-<h1>Calculadora  l123456</h1>
+        <h1>Detalles de Ventas</h1>
+
+        <table class="table table-bordered table-striped mb-0" style="min-width: 1600px; white-space: nowrap;">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Cliente</th>
+                    <th>Comercial</th>
+                    <th>Factura</th>
+                    <th>Fecha</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Lote</th>
+                    <th>Vencimiento</th>
+                    <th>Centro</th>
+                    <th>Oficina</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.nombrecliente</td>
+                        <td>@item.nombrecomercial</td>
+                        <td>@item.nrofactura</td>
+                        <td>@item.fechafactura?.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@item.descproducto</td>
+                        <td>@item.cantidad</td>
+                        <td>@item.precio</td>
+                        <td>@item.subtotal</td>
+                        <td>@item.lote</td>
+                        <td>@item.vencimiento</td>
+                        <td>@item.centro</td>
+                        <td>@item.oficinaventa</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+}

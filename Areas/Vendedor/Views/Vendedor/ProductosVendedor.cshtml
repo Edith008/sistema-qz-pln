@@ -1,0 +1,63 @@
+﻿@model List<ExtranetQz.Areas.Vendedor.Models.ProductoVendedor>
+
+@{
+    ViewData["Title"] = "Productos del Vendedor";
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No se encontraron productos.
+    </div>
+}
+else
+{
+    <div style="overflow-x: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+       
+        <h1> Lista de Productos  </h1>
+        <p> Estos son los productos asignados a este usuario vendedor </p>
+
+        @if (!string.IsNullOrEmpty(ViewBag.ArchivoRuta))
+        {
+            <a href="@("http://" + ViewBag.ArchivoRuta)" target="_blank"
+               class="btn"
+               style="position: absolute; top: 20px; right: 20px; background-color: #f3481a; color: white; border-color: #f3481a;">
+                Descargar Excel
+            </a>
+        }
+        
+        <table class="table table-bordered table-striped mb-0">
+        <thead class="thead-dark">
+            <tr>
+                <th>Item Code</th>
+                <th>Item Name</th>
+                <th>Frgn Name</th>
+                <th>Num In Sale</th>
+                <th>Vat Liable</th>
+                <th>Sal Unit Msr</th>
+                <th>Itms Grp Cod</th>
+                <th>Und Negocio</th>
+                <th>Bonus</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.itemCode</td>
+                    <td>@item.itemName</td>
+                    <td>@item.frgnName</td>
+                    <td>@item.numInSale</td>
+                    <td>@item.vatLiable</td>
+                    <td>@item.salUnitMsr</td>
+                    <td>@item.itmsGrpCod</td>
+                    <td>@item.undNegocio</td>
+                    <td>@item.bonus</td>
+                    <td>@item.status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+}

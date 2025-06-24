@@ -2,6 +2,10 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+@{
+    var hideSidebar = ViewData["HideSidebar"] as bool? ?? false;
+}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,40 +19,79 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                @* <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> *@
                 <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">
                     <img src="~/images/icons/logo-quimiza.png" class="mx-auto imglogo" style="max-width: 130px;">
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    @* <ul class="navbar-nav flex-grow-1"> *@
                     <ul class="navbar-nav ms-auto">
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Principal" asp-controller="Principal" asp-action="Principal">Home</a>
                             </li>
-                            @* <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Usuario" asp-controller="Usuario" asp-action="Usuario">Usuarios</a>
-                            </li> *@
                         }
-
-                        @* else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Login</a>
-                            </li>
-                        } *@
-
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
+    @* Mostrar solo si NO se debe ocultar *@
+    @if (!hideSidebar)
+    {
+        <!-- Botón para abrir/cerrar sidebar en móvil -->
+        <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('active')">☰ Menú</button>
+
+        <!-- Sidebar global -->
+        <div class="sidebar">
+            <div class="sidebar-title">Menú</div>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+        @inject UserManager<IdentityUser> UserManager
+                <a asp-area="Perfil" asp-controller="Perfil" asp-action="Perfil" asp-route-id="@UserManager.GetUserId(User)">Mi Perfil</a>
+                
+            }
+
+            @if (User.IsInRole("Admin") || User.IsInRole("Empleado"))
+            {
+                
+                <a asp-area="Usuario" asp-controller="Usuario" asp-action="UsuarioDefault">Gestionar usuario</a>
+                <a asp-area="Reporte" asp-controller="Reporte" asp-action="Reporte">Reportes</a>
+@*                 <a asp-area="Inventario" asp-controller="Inventario" asp-action="Inventario">Inventario</a> *@
+                <a asp-area="Kardex" asp-controller="Kardex" asp-action="Kardex">Kardex de Inventario</a>
+                <a asp-controller="Calculadora" asp-action="Calculadora">Calculadora</a>
+            }
+
+            @if (User.IsInRole("Admin") || User.IsInRole("Proveedor"))
+            {
+@*              <a asp-controller="Ventas" asp-action="Ventas">Ventas</a>
+                <a asp-controller="Pedidos" asp-action="Pedidos">Pedidos</a> *@
+            }
+
+            @if (User.IsInRole("Cliente"))
+            {
+                <a asp-controller="ClienteFac" asp-action="ClienteFac">Lista de compras facturadas</a>
+            }
+
+            @if (User.IsInRole("Vendedor"))
+            {
+                <a asp-area="Reporte" asp-controller="Reporte" asp-action="Reporte">Reportes</a>
+                <a asp-area="Vendedor" asp-controller="Vendedor" asp-action="ProductosVendedor">Productos del vendedor</a>
+                <a asp-area="Vendedor" asp-controller="Vendedor" asp-action="ClientesVendedor">Clientes del vendedor</a>
+                <a asp-area="Vendedor" asp-controller="Vendedor" asp-action="FacturasVendedor">Facturas del vendedor</a>
+                <a asp-area="Vendedor" asp-controller="Metricas" asp-action="FacturasMetricas">Metricas de facturas</a>
+            }
+        </div>
+    }
+
+    <!-- Contenido principal -->
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -60,12 +103,12 @@
             &copy; 2025 - Extranet - <a asp-area="" asp-controller="Login" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/Uploadpicture.js" asp-append-version="true"></script>
-    <script src="~/js/Principal.js" asp-append-version="true"></script>
-    <script src="~/js/Usuario.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
+
 </html>
+

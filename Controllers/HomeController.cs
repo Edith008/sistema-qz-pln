@@ -36,11 +36,11 @@ namespace ExtranetQz.Controllers
             _usuario = new LUsuario(userManager, signInManager, roleManager, context,null);
         }
 
-        //public async Task<IActionResult> Index()
         public async Task<IActionResult> Index()
         {
             //throw new Exception("This is some exception!!!");
-            await CreateRolesAsync(_serviceProvider);
+            //await CreateRolesAsync(_serviceProvider);
+            await CreateRolesAndFixedUserAsync(_serviceProvider);
             if (_signInManager.IsSignedIn(User))
             {
                 return RedirectToAction(nameof(PrincipalController.Principal), "Principal");
@@ -62,8 +62,6 @@ namespace ExtranetQz.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(LoginModel model)
         {
-            //throw new Exception("This is some exception!!!");
-            //await CreateRolesAsync(_serviceProvider);
             if (ModelState.IsValid)
             {
                 var result = await _usuario.UserLoginAsync(model);
@@ -116,18 +114,52 @@ namespace ExtranetQz.Controllers
                 }
             }
             return View(error);
-            //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        private async Task CreateRolesAsync(IServiceProvider serviceProvider)
+
+        private async Task CreateRolesAndFixedUserAsync(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            String[] rolesName = { "Admin", "Empleado", "Proveedor"};
-            foreach (var item in rolesName)
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+            // Crear roles si no existen
+            string[] rolesName = { "Admin", "Empleado", "Proveedor" ,"Cliente", "Vendedor"};
+
+            foreach (var roleName in rolesName)
             {
-                var roleExist = await roleManager.RoleExistsAsync(item);
-                if (!roleExist)
+                if (!await roleManager.RoleExistsAsync(roleName))
                 {
-                    await roleManager.CreateAsync(new IdentityRole(item));
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            // Crear usuario fijo si no existe
+            string fixedEmail = "admin@extranetqz.com";
+            string fixedPassword = "Admin123*"; 
+            string fixedRole = "Admin";
+
+            var fixedUser = await userManager.FindByEmailAsync(fixedEmail);
+            if (fixedUser == null)
+            {
+                var newUser = new IdentityUser
+                {
+                    UserName = fixedEmail,
+                    Email = fixedEmail,
+                    EmailConfirmed = true
+                };
+
+                var createResult = await userManager.CreateAsync(newUser, fixedPassword);
+
+                if (createResult.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(newUser, fixedRole);
+                }
+                else
+                {
+                    // Opcional: log de errores
+                    foreach (var error in createResult.Errors)
+                    {
+                        Console.WriteLine($"Error al crear el usuario fijo: {error.Description}");
+                    }
                 }
             }
         }

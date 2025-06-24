@@ -1,120 +1,4 @@
-﻿@*  ------------*@
- 
-@* @{
-    ViewData["Title"] = "Reporte";
-} *@
-
-@* <h1>reportes  l123456</h1> *@
-@*
-@{
-    ViewData["Title"] = "Reporte";
-}
-
-<h1>Crear Reporte</h1>
-
-
-<form >
-    <div>
-        <label for="tipoReporte">¿Qué tipo de reporte deseas?</label><br>
-        <input type="text" id="tipoReporte" name="tipoReporte" class="form-control" placeholder="Ej. ventas del mes de mayo" required />
-    </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Generar Reporte</button>
-</form>
-
- *@
-@* 
-@{
-    ViewData["Title"] = "Reporte";
-}
-
-<h1>Crear Reporte</h1>
-
-<form asp-action="GenerarReporte" method="post">
-    <div>
-        <label for="tipoReporte">¿Qué tipo de reporte deseas?</label><br>
-        <input type="text" id="tipoReporte" name="tipoReporte" class="form-control" placeholder="Ej. ventas del mes de mayo" required />
-    </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Generar Reporte</button>
-</form>
-
-@if (ViewBag.Respuesta != null)
-{
-    <div class="alert alert-info mt-3">
-        <strong>Respuesta del API:</strong>
-        <p>@ViewBag.Respuesta</p>
-    </div>
-} *@
-
-
-@* @{
-    ViewData["Title"] = "Reporte";
-    var resultados = ViewBag.Resultados as List<Dictionary<string, object>>;
-    var totalRegistros = ViewBag.TotalRegistros ?? 0;
-}
-
-<h1>Crear Reporte</h1>
-
-<form asp-action="GenerarReporte" method="post">
-    <div>
-        <label for="tipoReporte">¿Qué tipo de reporte deseas?</label><br />
-        <input type="text" id="tipoReporte" name="tipoReporte" class="form-control" placeholder="Ej. ventas del mes de mayo" required />
-    </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Generar Reporte</button>
-</form>
-
-@if (resultados != null && resultados.Count > 0)
-{
-    <hr />
-    <h3>Total de registros: @totalRegistros</h3>
-    <div style="overflow-x:auto">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Campo</th>
-                    @for (int i = 0; i < resultados.Count; i++)
-                    {
-                        <th>Registro @i</th>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    var allKeys = resultados.SelectMany(dict => dict.Keys).Distinct().ToList();
-
-                    foreach (var key in allKeys)
-                    {
-                        <tr>
-                            <td><strong>@key</strong></td>
-                            @foreach (var dict in resultados)
-                            {
-                                dict.TryGetValue(key, out var value);
-                                string display = value?.ToString();
-
-                                // Intentar formatear fechas
-                                if (DateTime.TryParse(display, out DateTime fecha))
-                                {
-                                    display = fecha.ToString("yyyy-MM-dd");
-                                }
-
-                                <td>@display</td>
-                            }
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </div>
-}
-else if (ViewBag.Error != null)
-{
-    <div class="alert alert-danger">@ViewBag.Error</div>
-}
- *@
-
-
+﻿
 @{
     ViewData["Title"] = "Reporte";
     var resultados = ViewBag.Resultados as List<Dictionary<string, object>>;
@@ -123,23 +7,49 @@ else if (ViewBag.Error != null)
     var nombreArchivo = ViewBag.NombreArchivo as string;
 }
 
-<h1>Crear Reporte</h1>
-
-<form asp-action="GenerarReporte" method="post">
-    <div>
-        <label for="tipoReporte">¿Qué tipo de reporte deseas?</label><br />
-        <input type="text" id="tipoReporte" name="tipoReporte" class="form-control" placeholder="Ej. ventas del mes de mayo" required />
+<!-- Formulario dentro de una tarjeta -->
+<!-- Tarjeta de formulario con estilo formal para fondo oscuro -->
+<div class="card mb-4 shadow-sm" style="
+    max-width: 800px;
+    margin: 40px auto;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05); /* efecto glass suave */
+    backdrop-filter: blur(10px);
+    color: #fff;
+">
+    <div class="card-body" style="padding: 40px;">
+        <h4 class="card-title mb-4" style="font-weight: 600;">Generar Reporte</h4>
+        <form asp-action="GenerarReporte" method="post">
+            <div class="mb-4">
+                <label for="tipoReporte" class="form-label" style="font-weight: 500;">¿Qué tipo de reporte deseas?</label>
+                <input type="text" id="tipoReporte" name="tipoReporte"
+                       class="form-control form-control-lg"
+                       placeholder="Ej. Ventas del mes de mayo"
+                       required
+                       style="background: rgba(255,255,255,0.1); border: none; color: #fff; border-radius: 6px;">
+            </div>
+            <button type="submit" class="btn px-4 py-2" style="
+                background-color: #f3481a;
+                border: none;
+                border-radius: 4px;
+                font-weight: 600;
+                color: #fff;">
+                Consultar
+            </button>
+        </form>
     </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Consultar</button>
-</form>
+</div>
+
 
 @if (resultados != null && resultados.Count > 0)
 {
     <hr />
-    <h3>Total de registros: @totalRegistros</h3>
 
     <div style="overflow-x:auto; background-color:white; padding:20px; border-radius:10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+
+        <h3>Total de registros: @totalRegistros</h3>
+
         <table class="table table-bordered table-striped mb-0">
             <thead>
                 <tr>
@@ -169,11 +79,11 @@ else if (ViewBag.Error != null)
             </tbody>
 
             <div class="mt-3">
-                <a href="http://@rutaArchivo" download="@nombreArchivo" class="btn btn-success me-2">
+                <a href="http://@rutaArchivo" download="@nombreArchivo" class="btn btn-primary me-2" style="background-color: #f3481a; border-color: #f3481a;">
                     Generar Excel
                 </a>
 
-                <a href="#" class="btn btn-danger disabled">
+                <a href="#" class="btn btn-danger disabled" style="background-color: #f3481a; border-color: #f3481a;">
                     Generar PDF
                 </a>
             </div>
@@ -182,20 +92,10 @@ else if (ViewBag.Error != null)
 
     <br />
 
-    
-        <div class="mt-3">
-            <a href="http://@rutaArchivo" download="@nombreArchivo" class="btn btn-success me-2">
-                Generar Excel
-            </a>
-
-            <a href="#" class="btn btn-danger disabled">
-                Generar PDF
-            </a>
-        </div>
-    
 }
 else if (ViewBag.Error != null)
 {
     <div class="alert alert-danger mt-3">@ViewBag.Error</div>
 }
 
+                

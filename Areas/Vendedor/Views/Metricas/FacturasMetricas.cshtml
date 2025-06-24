@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Métricas de Facturas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- 🚀 Contenedor principal -->
+<div style="background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+
+    <h2 style="color: #2d2d2d;">Métricas de Facturas - Vendedor @ViewBag.VendedorId</h2>
+
+    <!-- ✅ Cards de resumen -->
+    <div class="row my-4">
+        <div class="col-md-4 mb-3">
+            <div class="card text-white" style="background-color: #f3481a;">
+                <div class="card-body">
+                    <h5 class="card-title">Facturas Totales</h5>
+                    <p class="card-text display-6" style="color: white";>@ViewBag.FacturasTotales</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white" style="background-color: #f5633b;">
+                <div class="card-body">
+                    <h5 class="card-title">Monto Total (Bs.)</h5>
+                    <p class="card-text display-6" style="color: white";>@ViewBag.MontoTotal</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white" style="background-color: #2d2d2d;">
+                <div class="card-body">
+                    <h5 class="card-title">Promedio Mensual</h5>
+                    <p class="card-text display-6" style="color: white;">@ViewBag.MontoPromedio</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ Gráfico de barras -->
+    <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <canvas id="facturasChart" height="400"></canvas>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('facturasChart').getContext('2d');
+
+        const labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Labels));
+        const data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Data));
+
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Monto Total en Facturas Preventistas por Mes (Bs.)',
+                    data: data,
+                    backgroundColor: '#f3481a', // Naranja principal
+                    borderColor: '#2d2d2d', // Negro
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#2d2d2d'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Evolución Mensual',
+                        color: '#2d2d2d',
+                        font: {
+                            size: 18
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#2d2d2d'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#2d2d2d'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <style>
+        #facturasChart {
+            max-width: 100%;
+            height: 400px;
+        }
+    </style>
+}

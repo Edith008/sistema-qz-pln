@@ -112,13 +112,9 @@ body {
 
 /* login styles
 -------------------------------------------------- */
-body {
-    /* background: url('@Url.Content("~/images/icons/qz-fondo-naranja.png")')no-repeat center center fixed;*/
-    background: url('/images/icons/qz-fondo-naranja.png') no-repeat center center fixed;
-    background-size: cover;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
+body, body::before, body::after {
+    background: url('/images/icons/negro.png') no-repeat center center fixed !important;
+    background-size: cover !important;
 }
 
 .login-container {
@@ -234,7 +230,7 @@ body {
 .content {
     flex-grow: 1;
     padding: 30px;
-    background-color: #f8f9fa;
+    background-color: transparent !important;
     overflow-y: auto;
     /*margin-left: 0px;*/ /* coincide con el ancho del sidebar */
     margin-left: 285px;
@@ -273,36 +269,47 @@ body {
     display: none;
 }
 
-bodyy {
+/*bodyy {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #e9ecef;
+}*/
+
+.h1 {
+    color: #fff;
 }
 
-h1 {
-    color: #343a40;
+.h2 {
+    color: #fff;
 }
 
-p {
-    color: #6c757d;
+.p {
+    color: #fff;
     font-size: 1.1rem;
 }
 
 
-.welcome-box {
+/*.welcome-box {
     margin-bottom: 30px;
-    background-color: #ffffff;
-    padding: 30px;
+    background: rgba(0, 0, 0, 0.6);*/ /* Negro semitransparente */
+    /*color: #fff;*/ /* Texto blanco */
+    /*padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);*/ /* sombra más visible */
+    /*max-width: 800px;*/ /* opcional: para no estirarse mucho */
+    /*text-align: center;*/ /* centrar texto */
+    /*margin: 50px auto;*/ /* centrado horizontal + espacio arriba/abajo */
+    /*margin-top: 350px
+}*/
 
-    .welcome-box h1 {
+    /* El título dentro de welcome-box ahora es blanco */
+    /*.welcome-box h1 {
         margin-bottom: 10px;
         font-size: 2rem;
-    }
+        color: #fff;*/ /* asegúrate que es blanco */
+    /*}*/
 
-.info-grid {
+/*.info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
@@ -327,4 +334,80 @@ p {
 
     .info-card p {
         color: #555;
+    }*/
+
+
+
+
+<style >
+body {
+    background-color: #2d2d2d; /* Fondo oscuro */
+    color: #fff;
+}
+
+.card-dark {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.btn-custom {
+    background-color: #f3481a;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+}
+
+    .btn-custom:hover {
+        background-color: #f5633b;
     }
+
+.btn-link {
+    color: #f3481a;
+}
+
+    .btn-link:hover {
+        color: #f5633b;
+    }
+
+.form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+}
+
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+.accordion .card {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border: none;
+}
+
+.card-header {
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.text-danger {
+    color: #f3481a !important;
+}
+
+.imageUserDetails {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 50%;
+    border: 3px solid #f3481a;
+}
+
+</style >
+
+
+
+
+
+
