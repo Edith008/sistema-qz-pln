@@ -66,7 +66,7 @@
                 <a asp-area="Reporte" asp-controller="Reporte" asp-action="Reporte">Reportes</a>
 @*                 <a asp-area="Inventario" asp-controller="Inventario" asp-action="Inventario">Inventario</a> *@
                 <a asp-area="Kardex" asp-controller="Kardex" asp-action="Kardex">Kardex de Inventario</a>
-                <a asp-controller="Calculadora" asp-action="Calculadora">Calculadora</a>
+                <a asp-controller="Calculadora" asp-action="Calculadora">Detalle de venta</a>
             }
 
             @if (User.IsInRole("Admin") || User.IsInRole("Proveedor"))
@@ -101,7 +101,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - Extranet - <a asp-area="" asp-controller="Login" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - Extranet - <a asp-area="" asp-controller="Home" asp-action="Privacy">Política de privacidad</a>
         </div>
     </footer>
 
@@ -109,6 +109,33 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+
+
+
+    @{
+        var consentCookie = Context.Request.Cookies["termsAccepted"];
+        var showTermsBanner = string.IsNullOrEmpty(consentCookie);
+    }
+
+    @if (showTermsBanner)
+    {
+        <div class="alert alert-info fixed-bottom mb-0 text-center rounded-0" id="termsBanner">
+            Este sitio utiliza cookies y necesita tu consentimiento para continuar.
+            <a asp-controller="Home" asp-action="Privacy">Política de privacidad</a>
+            <button class="btn btn-sm btn-primary ml-2" onclick="aceptarTerminos()">Aceptar</button>
+        </div>
+
+        <script>
+            function aceptarTerminos() {
+                const expires = new Date();
+                expires.setFullYear(expires.getFullYear() + 1);
+                document.cookie = "termsAccepted=true; path=/; expires=" + expires.toUTCString();
+                document.getElementById("termsBanner").style.display = "none";
+            }
+        </script>
+    }
+
+
 </body>
 
 </html>
