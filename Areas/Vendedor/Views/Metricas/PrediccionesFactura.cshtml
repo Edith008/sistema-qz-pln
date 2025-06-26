@@ -4,32 +4,81 @@
     var data = ViewBag.Data as List<decimal>;
 }
 
-<h2>Predicciones de Facturas (Próximos Meses)</h2>
+<h2 style="color: #fff;">Predicciones de Facturas (Próximos 3 Meses)</h2>
 
-<canvas id="prediccionesChart" width="800" height="400"></canvas>
+<div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <canvas id="prediccionesChart" width="800" height="400"></canvas>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    var ctx = document.getElementById('prediccionesChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(labels)),
-            datasets: [{
-                label: 'Predicción DocTotal',
-                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(data)),
-                backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+    <script>
+        var ctx = document.getElementById('prediccionesChart').getContext('2d');
+
+        var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(labels));
+        var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(data));
+
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Predicción de Monto Total en Facturas por Mes (Bs.)',
+                    data: data,
+                    backgroundColor: '#ed6a3e',
+                    borderColor: '#2d2d2d',
+                    borderWidth: 2
+                }]
+            },
+            plugins: [ChartDataLabels],
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#2d2d2d'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Predicción de Facturación Futura',
+                        color: '#2d2d2d',
+                        font: {
+                            size: 18
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        anchor: 'end',
+                        align: 'start',
+                        formatter: function (value) {
+                            return 'Bs. ' + value.toLocaleString('es-ES', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            });
+                        },
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#2d2d2d'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#2d2d2d'
+                        }
+                    }
                 }
             }
-        }
-    });
-</script>
+        });
+    </script>
+}

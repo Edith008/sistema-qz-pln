@@ -269,11 +269,6 @@ body, body::before, body::after {
     display: none;
 }
 
-/*bodyy {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #e9ecef;
-}*/
 
 .h1 {
     color: #fff;
@@ -289,57 +284,8 @@ body, body::before, body::after {
 }
 
 
-/*.welcome-box {
-    margin-bottom: 30px;
-    background: rgba(0, 0, 0, 0.6);*/ /* Negro semitransparente */
-    /*color: #fff;*/ /* Texto blanco */
-    /*padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);*/ /* sombra más visible */
-    /*max-width: 800px;*/ /* opcional: para no estirarse mucho */
-    /*text-align: center;*/ /* centrar texto */
-    /*margin: 50px auto;*/ /* centrado horizontal + espacio arriba/abajo */
-    /*margin-top: 350px
-}*/
-
-    /* El título dentro de welcome-box ahora es blanco */
-    /*.welcome-box h1 {
-        margin-bottom: 10px;
-        font-size: 2rem;
-        color: #fff;*/ /* asegúrate que es blanco */
-    /*}*/
-
-/*.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-.info-card {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease;
-}
-
-    .info-card:hover {
-        transform: translateY(-4px);
-    }
-
-    .info-card h2 {
-        font-size: 1.25rem;
-        margin-bottom: 10px;
-    }
-
-    .info-card p {
-        color: #555;
-    }*/
 
 
-
-
-<style >
 body {
     background-color: #2d2d2d; /* Fondo oscuro */
     color: #fff;
@@ -404,7 +350,6 @@ body {
     border: 3px solid #f3481a;
 }
 
-</style >
 
 
 

@@ -55,14 +55,14 @@ namespace ExtranetQz.Areas.Vendedor.Controllers
 
                 // Agrupa por mes y año para métricas y gráfico
                 var metricas = facturas
-                    .GroupBy(f => new { f.taxDate.Year, f.taxDate.Month })
-                    .Select(g => new
-                    {
-                        Mes = $"{g.Key.Month}/{g.Key.Year}",
-                        Total = g.Sum(f => f.docTotal)
-                    })
-                    .OrderBy(x => x.Mes)
-                    .ToList();
+                .GroupBy(f => new { f.taxDate.Year, f.taxDate.Month })
+                .OrderBy(g => new DateTime(g.Key.Year, g.Key.Month, 1))
+                .Select(g => new
+                {
+                    Mes = $"{g.Key.Month}/{g.Key.Year}",
+                    Total = g.Sum(f => f.docTotal)
+                })
+                .ToList();
 
                 // Totales y promedio
                 ViewBag.FacturasTotales = facturas.Count;

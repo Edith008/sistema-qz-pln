@@ -1,10 +1,10 @@
-﻿
+﻿@* 
 @model List<ExtranetQz.Areas.Kardex.Models.Movimiento>
 
 
 <div style="overflow-x:auto; background-color:white; padding:20px; border-radius:10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
    
-    <h1>Movimientos de Inventario</h1>
+    <h1 style="color: #2d2d2d;">Movimientos de Inventario</h1>
 
     <table class="table table-bordered table-striped mb-0">
         <thead class="thead-dark">
@@ -24,7 +24,7 @@
         {
             <tr>
                 <td>@(item.clase_movimiento?.ToString() ?? "-")</td>
-                <td>@(item.codigo_material ?? 0)</td> @* o mostrar "-" si prefieres *@
+                <td>@(item.codigo_material ?? 0)</td> 
                 <td>@item.descripcion</td>
                 <td>@(item.cantidad?.ToString() ?? "-")</td>
                 <td>@item.lote</td>
@@ -61,3 +61,97 @@
 
 <br />
 
+ *@
+
+
+@model List<ExtranetQz.Areas.Kardex.Models.Movimiento>
+
+<div style="overflow-x:auto; background-color:white; padding:20px; border-radius:10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+    <h1 style="color: #2d2d2d;">Movimientos de Inventario</h1>
+
+    <!-- Campo de búsqueda -->
+    <label for="searchInput" style="margin-right:10px; font-weight: bold;color: #2d2d2d; ">Buscador:</label>
+    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Buscar por clase, código o descripción..." style="padding: 5px; width: 300px; max-width: 100%;">-bottom: 15px; padding: 5px; width: 100%; max-width: 400px;">
+
+    <table id="movimientosTable" class="table table-bordered table-striped mb-0">
+        <thead class="thead-dark">
+            <tr>
+                <th>Clase</th>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Cantidad</th>
+                <th>Lote</th>
+                <th>Fecha Entrada</th>
+                <th>Costo</th>
+                <th>Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(item.clase_movimiento?.ToString() ?? "-")</td>
+                    <td>@(item.codigo_material ?? 0)</td>
+                    <td>@item.descripcion</td>
+                    <td>@(item.cantidad?.ToString() ?? "-")</td>
+                    <td>@item.lote</td>
+                    <td>@item.fecha_entrada?.ToString("yyyy-MM-dd")</td>
+                    <td>@(item.costo?.ToString("N2"))</td>
+                    <td>@(item.importe.HasValue ? $"{item.importe.Value:N2}" : "-")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @* Cálculo de totales usando lista materializada para evitar error *@
+    @{
+        var movimientos = Model.ToList();
+        var totalCantidad = movimientos.Sum(x => x.cantidad ?? 0);
+        var totalImporte = movimientos.Sum(x => x.importe ?? 0m);
+    }
+
+    <h3>Totales</h3>
+    <table class="table table-bordered table-sm" style="width: 300px;">
+        <thead>
+            <tr>
+                <th>Total Cantidad</th>
+                <th>Total Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@totalCantidad</td>
+                <td>@totalImporte.ToString("N2")</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function filterTable() {
+        var input = document.getElementById("searchInput");
+        var filter = input.value.toUpperCase();
+        var table = document.getElementById("movimientosTable");
+        var tr = table.getElementsByTagName("tr");
+
+        for (var i = 1; i < tr.length; i++) { // empieza en 1 para saltar encabezado
+            var tdClase = tr[i].getElementsByTagName("td")[0];
+            var tdCode = tr[i].getElementsByTagName("td")[1];
+            var tdDesc = tr[i].getElementsByTagName("td")[2];
+
+            if (tdClase && tdCode && tdDesc) {
+                var txtClase = tdClase.textContent || tdClase.innerText;
+                var txtCode = tdCode.textContent || tdCode.innerText;
+                var txtDesc = tdDesc.textContent || tdDesc.innerText;
+
+                if (txtClase.toUpperCase().indexOf(filter) > -1 ||
+                    txtCode.toUpperCase().indexOf(filter) > -1 ||
+                    txtDesc.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
